@@ -28,12 +28,45 @@ class CartController extends Controller
                      ->getRepository('CartBundle:Product');
 
         $product = $repo->find($id);
+        $session = $this->get('session');
 
-        $cart = new Cart();
-        $cart->addProduct($product);
+        if (!$session->has('cart')) {
+            $session->set('cart', new Cart());
+        }
 
-        var_dump($cart->getQuantity());
+        $session->get('cart')->addProduct($product);
 
-        return $this->render('@Cart/Default/index.html.twig');
+        $this->addFlash('success', 'Le produit a bien été ajouté au panier');
+
+        return $this->redirectToRoute('cartIndex');
+    }
+
+    /**
+     * @Route("/remove/{id}", name="remCart", requirements={"id"="\d+"})
+     */
+    public function removeAction($id)
+    {
+        $repo = $this->getDoctrine()
+            ->getRepository('CartBundle:Product');
+
+        $product = $repo->find($id);
+        $session = $this->get('session');
+
+        $session->get('cart')->removeProduct($product);
+
+        $this->addFlash('success', 'Le produit a bien été supprimé du panier');
+
+        return $this->redirectToRoute('cartIndex');
+    }
+
+    /**
+     * @Route("/clear", name="clearCart")
+     */
+    public function clearAction()
+    {
+        $this->get('session')->get('cart')->clearCart();
+
+        $this->addFlash('info', 'Le panier est vide');
+        return $this->redirectToRoute('homepage');
     }
 }

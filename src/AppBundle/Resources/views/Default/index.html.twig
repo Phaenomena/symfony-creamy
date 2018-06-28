@@ -19,7 +19,8 @@
                     <p class="card-title text-justify">{{ product.description }}</p>
                 <img class="img-fluid" style=" display: block;" src="{{ asset('upload/products/') ~ product.imageUrl }}">
 
-                    <a class="btn btn-outline-secondary" href="{{ path('viewCart', {id: product.id}) }}">Ajouter au panier</a>
+                    <a class="btn btn-outline-secondary" href="{{ path('viewCart', {id: product.id}) }}">+</a>
+                    <a class="btn btn-outline-info" href="{{ path('remCart', {id: product.id}) }}">-</a>
                     <h6 class="float-right">{{ product.price|number_format(2, ',', ' ') }} €</h6>
                 </div>
             </div>

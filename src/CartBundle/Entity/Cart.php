@@ -26,6 +26,13 @@ class Cart
      */
     private $total = 0;
 
+    public function calculTotal(Product $product, int $quantity)
+    {
+        $subtotal = $product->getPrice() * $quantity;
+        $this->total += $subtotal;
+        return $subtotal;
+    }
+
     /**
      * @param Product $product
      * @param int $quantity

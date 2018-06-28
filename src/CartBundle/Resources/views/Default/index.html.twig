@@ -1,1 +1,47 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Votre panier
+{% endblock %}
+
+{% block body %}
+    <h2 class="text-center mb-3">Les articles dans votre panier</h2>
+
+    {% if cart is null %}
+        <p>Votre panier est vide, ajoutez des articles pour les voir ici</p>
+        <p class="mb-3">Visitez notre store <a href="{{ path('homepage') }}">ici</a>.</p>
+    {% else %}
+
+        <table class="table mt-3 text-center">
+            <tr>
+                <th>Titre</th>
+                <th>Prix (€)</th>
+                <th>Quantité</th>
+                <th>Total (€)</th>
+            </tr>
+            {% for id, product in cart.products %}
+                {% set quantity = cart.quantity[id] %}
+                <tr>
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.price|number_format(2, ',', ' ') }}</td>
+                    <td>{{ quantity }}</td>
+                    <td>{{ (cart.calculTotal(product, quantity))|number_format(2, ',', ' ') }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <th colspan="3">Total</th>
+                <th>{{ cart.total }}</th>
+            </tr>
+        </table>
+
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-danger float-right" href="{{ path('clearCart') }}">Vider le panier :(</a>
+            </div>
+            <div class="col">
+                <a class="btn btn-warning float-right" href="#">Procéder au paiement</a>
+            </div>
+        </div>
+
+    {% endif %}
+{% endblock %}
