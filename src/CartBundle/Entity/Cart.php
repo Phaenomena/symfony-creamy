@@ -50,6 +50,39 @@ class Cart
     /**
      * @param Product $product
      * @param int $quantity
+     * @return $this|void
+     */
+    public function removeProduct(Product $product, $quantity = 1)
+    {
+        if (!$this->hasProduct($product)) {
+            return;
+        }
+
+        if ($quantity < 1 || $quantity > $this->quantity[$product->getId()]) {
+            unset($this->products[$product->getId()]);
+            unset($this->quantity[$product->getId()]);
+            return;
+        }
+
+        $this->quantity[$product->getId()] -= $quantity;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function clearCart()
+    {
+        $this->products = [];
+        $this->quantity = [];
+
+        return $this;
+    }
+
+    /**
+     * @param Product $product
+     * @param int $quantity
      * @return $this
      */
     public function setQuantity(Product $product, int $quantity)

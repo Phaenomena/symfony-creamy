@@ -80,6 +80,15 @@ class Product
         $this->setCreatedAt(new \DateTime());
     }
 
+    /**
+     * @param int $id
+     * @return Product
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     /**
      * Get id
