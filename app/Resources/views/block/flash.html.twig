@@ -1,0 +1,11 @@
+
+{% for label,message in app.session.flashbag.all %}
+<div class="container mt-2">
+    <div class="alert alert-dismissible alert-{{ label }}">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {% for message in message %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}

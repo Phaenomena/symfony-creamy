@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Produits
+{% endblock %}
+
+{% block body %}
+
+    <h2>Liste des produits</h2>
+    <p>Appréciez nos glaces faites maison en format individuel ou en format maxi (pour le partage ou les gourmands ;) )</p>
+
+    <div class="row">
+
+            {% for product in products %}
+        <div class="col-6">
+            <div class="card mb-3">
+                <h5 class="card-header">{{ product.title }}</h5>
+                <div class="card-body">
+                    <p class="card-title text-justify">{{ product.description }}</p>
+                <img class="img-fluid" style=" display: block;" src="{{ asset('upload/products/') ~ product.imageUrl }}">
+
+                <button type="button" class="btn btn-outline-secondary">Ajouter au panier</button>
+                    <h6 class="float-right">{{ product.price|number_format(2, ',', ' ') }} €</h6>
+                </div>
+            </div>
+        </div>
+            {% endfor %}
+
+    </div>
+
+{% endblock %}
