@@ -52,9 +52,16 @@ class CartController extends Controller
         $product = $repo->find($id);
         $session = $this->get('session');
 
-        $session->get('cart')->removeProduct($product);
+        if (!$session->has('cart')) {
+            $session->set('cart', new Cart());
+        }
 
-        $this->addFlash('success', 'Le produit a bien été supprimé du panier');
+        try {
+            $session->get('cart')->removeProduct($product);
+            $this->addFlash('success', 'Le produit a bien été supprimé du panier');
+        } catch (\Exception $e) {
+            $this->addFlash('danger', 'Quantité incorrecte');
+        }
 
         return $this->redirectToRoute('cartIndex');
     }

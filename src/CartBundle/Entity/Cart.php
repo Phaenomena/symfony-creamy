@@ -33,6 +33,11 @@ class Cart
         return $subtotal;
     }
 
+    public function countItems()
+    {
+        return array_sum($this->getQuantity());
+    }
+
     /**
      * @param Product $product
      * @param int $quantity
@@ -57,6 +62,7 @@ class Cart
     /**
      * @param Product $product
      * @param int $quantity
+     * @throws \Exception
      * @return $this|void
      */
     public function removeProduct(Product $product, $quantity = 1)
@@ -65,13 +71,17 @@ class Cart
             return;
         }
 
-        if ($quantity < 1 || $quantity > $this->quantity[$product->getId()]) {
+        if ($quantity < 1) {
+            throw new \Exception('Quantité incorrecte incorrecte');
+        }
+
+        $this->quantity[$product->getId()] -= $quantity;
+
+        if ($quantity >= $this->quantity[$product->getId()]) {
             unset($this->products[$product->getId()]);
             unset($this->quantity[$product->getId()]);
             return;
         }
-
-        $this->quantity[$product->getId()] -= $quantity;
 
         return $this;
     }

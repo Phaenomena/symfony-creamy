@@ -7,8 +7,8 @@
 {% block body %}
     <h2 class="text-center mb-3">Les articles dans votre panier</h2>
 
-    {% if cart is null %}
-        <p>Votre panier est vide, ajoutez des articles pour les voir ici</p>
+    {% if app.session.has('cart') and cart.products is empty %}
+        <p>Votre panier est vide, ajoutez des articles...</p>
         <p class="mb-3">Visitez notre store <a href="{{ path('homepage') }}">ici</a>.</p>
     {% else %}
 
@@ -17,6 +17,7 @@
                 <th>Titre</th>
                 <th>Prix (€)</th>
                 <th>Quantité</th>
+                <th></th>
                 <th>Total (€)</th>
             </tr>
             {% for id, product in cart.products %}
@@ -24,12 +25,17 @@
                 <tr>
                     <td>{{ product.title }}</td>
                     <td>{{ product.price|number_format(2, ',', ' ') }}</td>
-                    <td>{{ quantity }}</td>
+                    <td>{{ quantity }}
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-secondary" href="{{ path('viewCart', {id: product.id}) }}">+</a>
+                        <a class="btn btn-outline-info" href="{{ path('remCart', {id: product.id}) }}">-</a>
+                    </td>
                     <td>{{ (cart.calculTotal(product, quantity))|number_format(2, ',', ' ') }}</td>
                 </tr>
             {% endfor %}
             <tr>
-                <th colspan="3">Total</th>
+                <th colspan="4">Total TTC</th>
                 <th>{{ cart.total }}</th>
             </tr>
         </table>
@@ -39,7 +45,7 @@
                 <a class="btn btn-danger float-right" href="{{ path('clearCart') }}">Vider le panier :(</a>
             </div>
             <div class="col">
-                <a class="btn btn-warning float-right" href="#">Procéder au paiement</a>
+                <a class="btn btn-primary float-right" href="#">Procéder au paiement</a>
             </div>
         </div>
 

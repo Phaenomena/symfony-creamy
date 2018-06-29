@@ -1,27 +1,32 @@
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{ path('homepage') }}">{{ data.company_name }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ path('homepage') }}">{{ data.company_name }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+            aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarColor03">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('homepage') }}"><img src="https://i.pinimg.com/originals/6a/d6/06/6ad6066370b243834fc1b72c19c7387a.png" height="30px" alt=""><span class="sr-only">(current)</span></a>
-                </li>
+    <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('homepage') }}"><img
+                            src="https://i.pinimg.com/originals/6a/d6/06/6ad6066370b243834fc1b72c19c7387a.png"
+                            height="30px" alt=""><span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('addProduct') }}">Produit</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+            </li>
+        </ul>
+        {% if app.session.has('cart') %}
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('addProduct') }}">Produit</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('cartIndex') }}">Panier</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+                    <a class="nav-link" href="{{ path('cartIndex') }}">
+                        <i class="fa fa-shopping-cart"></i> {{ app.session.get('cart').countItems }}
+                    </a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" placeholder="Search" type="text">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
+        {% endif %}
+    </div>
+</nav>
